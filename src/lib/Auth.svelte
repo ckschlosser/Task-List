@@ -20,11 +20,11 @@
     }
   </script>
   
-  <div class="container-login">
-    <div class="col-6 form-widget" aria-live="polite">
+  <div class="flex-center">
+    <div aria-live="polite">
       <h1 class="header-login">Welcome to Task List Login</h1>
-      <p class="description">Sign in via magic link with your email below</p>
-      <form class="form-widget" on:submit|preventDefault={handleLogin}>
+      <p class="description flex-center">Sign in via confirm link with your email below</p>
+      <form class="form flex-center" on:submit|preventDefault={handleLogin}>
         <div>
           <label for="email">Email</label>
           <input
@@ -36,10 +36,38 @@
           />
         </div>
         <div>
-          <button type="submit" class="button block" aria-live="polite" disabled={loading}>
-            <span>{loading ? 'Loading' : 'Send magic link'}</span>
+          <button type="submit" id="new-task-submit" aria-live="polite" disabled={loading}>
+            <span>{loading ? 'Loading' : 'Confirm link'}</span>
           </button>
         </div>
       </form>
     </div>
   </div>
+
+  <style>
+    .flex-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .header-login {
+      font-size: 5rem;
+      font-family: "Fira sans", sans-serif;
+      font-weight: 300;
+      color: var(--gray);
+    }
+    .description {
+      margin-bottom: 5em;
+    }
+    .inputField {
+    background-color: var(--darker);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    color: var(--light);
+    font-size: 1.25rem;
+    margin-left: 0.5em;
+    padding-right: 5em;
+    }
+
+  </style>
