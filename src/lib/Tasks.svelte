@@ -32,7 +32,7 @@
             .from('Tasks')
             .insert([
                 { text: task_text, 
-                  user_id: await userData.data.user.id },
+                  user_id: await userData.data.user.id }
             ])
         
         if (error) {
