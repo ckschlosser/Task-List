@@ -23,18 +23,19 @@
         await dataUpdate();
         console.log('Tasks:', tasks);
 
-        userData = await supabase.auth.getUser();
+        userData = await supabase.auth.getSession();
 
 	  });
 
     async function handleOnSubmit() {
         console.log('Form Submitted, task_text: ', task_text);
-        console.log('USER::', userData);
+        console.log('USER:!', userData);
+
         const { data, error } = await supabase
             .from('Tasks')
             .insert([
                 { text: task_text, 
-                  user_id: userData.data.user.id,
+                  user_id: await userData.data.session.user.id,
                  },
             ])
         
