@@ -1,26 +1,29 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { supabase } from "../supabaseClient";
+    import Auth from './Auth.svelte';
 
     let taskTextPlaceholder;
     let showSaveID;
     let task_text;
     let currentlyEditing = false;
-    $:tasks = [];
-    let dataUpdate = async function() {
-      await supabase
-      .from('Tasks')
-      .select('*')
-      tasks = this.data;
+    $: tasks = [];
+    $: userData = {};
+    
+    const dataUpdate = async function() {
+      let tempTasks = await supabase.from("Tasks").select('*');
+      tasks = tempTasks.data
     }
 
     // Get tasks from supabase
     onMount(async () => {
 		
-        dataUpdate();
+        await dataUpdate();
         console.log('Tasks:', tasks);
 
-	});
+        userData = await supabase.auth.getUser()
+
+	  });
 
     async function handleOnSubmit() {
         console.log('Form Submitted, task_text: ', task_text);
@@ -28,13 +31,14 @@
         const { data, error } = await supabase
             .from('Tasks')
             .insert([
-                { text: task_text },
+                { text: task_text, 
+                  user_id: await userData.data.user.id },
             ])
         
         if (error) {
             console.log('Error adding task: ', error);
         } else {
-            dataUpdate();
+            await dataUpdate();
             task_text = '';            
 
         }
@@ -61,7 +65,7 @@
       if (error) {
             console.log('Error editing task: ', error);
         } else {
-            dataUpdate();
+            await dataUpdate();
             currentlyEditing = false;
         }
         
@@ -81,8 +85,7 @@
       if (error) {
             console.log('Error deleting task: ', error);
         } else {
-            dataUpdate();
-
+            await dataUpdate();
 
         }
 
