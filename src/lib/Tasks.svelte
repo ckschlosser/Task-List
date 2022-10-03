@@ -31,9 +31,12 @@
         const { data, error } = await supabase
             .from('Tasks')
             .insert([
-                { text: task_text, 
+                { 
+                  text: task_text, 
                   user_id: await userData.data.user.id }
-            ])
+            ],
+            { returning: "minimal" }
+            )
         
         if (error) {
             console.log('Error adding task: ', error);
