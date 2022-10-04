@@ -8,7 +8,15 @@
     let task_text;
     let currentlyEditing = false;
     $: tasks = [];
-    $: userData = {};
+    $: userData = {
+      data: {
+        session: {
+          user: {
+            id: ''
+          }
+        }
+      }
+    };
     
     
     const dataUpdate = async function() {
