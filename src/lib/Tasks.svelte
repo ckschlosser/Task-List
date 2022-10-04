@@ -21,8 +21,8 @@
     
     const dataUpdate = async function() {
       let tempTasks = await supabase.from("Tasks").select('*');
-      tasks = tempTasks.data
-
+      tasks = tempTasks.data;
+      userData = userData;
     }
    
     // Get tasks from supabase
@@ -39,14 +39,20 @@
         console.log('Form Submitted, task_text: ', task_text);
         console.log('USER:!', userData);
 
-        const { data, error } = await supabase
+        const { error } = await supabase
+          .from('Tasks')
+          .insert({ 
+            text: task_text,
+          })
+
+        /*const { data, error } = await supabase
             .from('Tasks')
             .insert([
                 { text: task_text, 
                   user_id: await userData.data.session.user.id,
                  },
             ])
-        
+        */
         if (error) {
             console.log('Error adding task: ', error);
         } else {
