@@ -28,8 +28,14 @@
     // Get tasks from supabase
     onMount(async () => {
 		
-        await dataUpdate();
         console.log('Tasks:', tasks);
+        
+        const { data, error } = await supabase.auth.getSession().then(({ data: { session } }) => {
+          console.log('DATA', data),
+          setSession(session)
+        })
+
+        await dataUpdate();
 
         userData = await supabase.auth.getSession();
 
@@ -42,7 +48,7 @@
         const { error } = await supabase
           .from('Tasks')
           .insert({ 
-            text: task_text,
+            text: task_text
           })
 
         /*const { data, error } = await supabase
