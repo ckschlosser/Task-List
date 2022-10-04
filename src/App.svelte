@@ -7,7 +7,8 @@
   import Tasks from './lib/Tasks.svelte';
 
   let session: AuthSession
-
+  
+  $: console.log(session);
   onMount(() => {
     supabase.auth.getSession().then(({ data }) => {
       session = data.session

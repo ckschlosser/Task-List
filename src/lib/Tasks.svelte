@@ -8,13 +8,21 @@
     let task_text;
     let currentlyEditing = false;
     $: tasks = [];
-    $: userData = {};
+    $: userData = {
+      data: {
+        session: {
+          user: {
+            id: ''
+          }
+        }
+      }
+    };
     
     
     const dataUpdate = async function() {
       let tempTasks = await supabase.from("Tasks").select('*');
-      tasks = tempTasks.data
-
+      tasks = tempTasks.data;
+      userData = userData;
     }
    
     // Get tasks from supabase
@@ -23,21 +31,28 @@
         await dataUpdate();
         console.log('Tasks:', tasks);
 
-        userData = await supabase.auth.getUser();
+        userData = await supabase.auth.getSession();
 
 	  });
 
     async function handleOnSubmit() {
         console.log('Form Submitted, task_text: ', task_text);
-        console.log('USER::', userData);
-        const { data, error } = await supabase
+        console.log('USER:!', userData);
+
+        const { error } = await supabase
+          .from('Tasks')
+          .insert({ 
+            text: task_text,
+          })
+
+        /*const { data, error } = await supabase
             .from('Tasks')
             .insert([
                 { text: task_text, 
-                  user_id: userData.data.user.id,
+                  user_id: await userData.data.session.user.id,
                  },
             ])
-        
+        */
         if (error) {
             console.log('Error adding task: ', error);
         } else {
