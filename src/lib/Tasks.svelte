@@ -48,8 +48,7 @@
         const { error } = await supabase
           .from('Tasks')
           .insert({ 
-            text: task_text,
-            user_id: 
+            text: task_text
           })
 
         /*const { data, error } = await supabase
