@@ -7,35 +7,20 @@
     let showSaveID;
     let task_text;
     let currentlyEditing = false;
-    $: tasks = [];
-    $: userData = {
-      data: {
-        session: {
-          user: {
-            id: ''
-          }
-        }
-      }
-    };
+    let tasks = [];
+    let userData = {};
     
     
     const dataUpdate = async function() {
       let tempTasks = await supabase.from("Tasks").select('*');
-      tasks = tempTasks.data;
-      userData = userData;
+      tasks = tempTasks.data
     }
    
     // Get tasks from supabase
     onMount(async () => {
 		
-        console.log('Tasks:', tasks);
-        
-        const { data, error } = await supabase.auth.getSession().then(({ data: { session } }) => {
-          console.log('DATA', data),
-          setSession(session)
-        })
-
         await dataUpdate();
+        console.log('Tasks:', tasks);
 
         userData = await supabase.auth.getSession();
 
@@ -43,22 +28,16 @@
 
     async function handleOnSubmit() {
         console.log('Form Submitted, task_text: ', task_text);
-        console.log('USER:!', userData);
+        console.log('USER:!', supabase.auth.getSession());
 
-        const { error } = await supabase
-          .from('Tasks')
-          .insert({ 
-            text: task_text
-          })
-
-        /*const { data, error } = await supabase
+        const { data, error } = await supabase
             .from('Tasks')
             .insert([
                 { text: task_text, 
                   user_id: await userData.data.session.user.id,
                  },
             ])
-        */
+        
         if (error) {
             console.log('Error adding task: ', error);
         } else {
