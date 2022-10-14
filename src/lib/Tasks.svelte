@@ -137,3 +137,15 @@
           </div>
         </section>
       </main>
+
+      <style>
+        @media only screen and (max-width: 430px) {
+          #new-task-form {
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+          .content {
+            font-size: .75rem;
+          }
+        }
+      </style>

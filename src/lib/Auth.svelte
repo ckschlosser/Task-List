@@ -20,11 +20,11 @@
     }
   </script>
   
-  <div class="flex-center">
+  <div class="">
     <div aria-live="polite">
-      <h1 class="header-login">Welcome to Task List Login</h1>
-      <p class="description flex-center">Sign in via confirm link with your email below</p>
-      <form class="form flex-center" on:submit|preventDefault={handleLogin}>
+      <h1 class="header-login center-text">Welcome to Task List Login</h1>
+      <p class="description center-text">Sign in via confirm link with your email below</p>
+      <form class="form flex flex-center" on:submit|preventDefault={handleLogin}>
         <div>
           <label for="email">Email</label>
           <input
@@ -45,29 +45,50 @@
   </div>
 
   <style>
-    .flex-center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+     .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+  .center-text {
+    text-align: center;
+  }
+  
     .header-login {
-      font-size: 5rem;
+      font-size: 2.5rem;
       font-family: "Fira sans", sans-serif;
       font-weight: 300;
       color: var(--gray);
+      padding: 0 1rem;
+
     }
     .description {
-      margin-bottom: 5em;
+      margin-bottom: 3em;
     }
+
     .inputField {
     background-color: var(--darker);
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 1rem;
     margin-right: 1rem;
     color: var(--light);
     font-size: 1.25rem;
     margin-left: 0.5em;
-    padding-right: 5em;
-    }
+    } 
 
+    @media only screen and (min-width: 575px) {
+        .header-login {
+          font-size: 5rem;
+        }
+        .inputField {
+          padding: 1rem;
+        }
+        .description {
+          margin-bottom: 5rem;
+        }
+
+    }
   </style>
